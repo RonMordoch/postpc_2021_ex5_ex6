@@ -1,31 +1,49 @@
 package exercise.android.reemh.todo_items;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.widget.EditText;
 
-public class MainActivity extends AppCompatActivity {
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-  public TodoItemsHolder holder = null;
+public class MainActivity extends AppCompatActivity
+{
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+    public TodoItemsHolder holder = null;
+    private FloatingActionButton fabCreateItem;
+    private EditText editTextTask;
 
-    if (holder == null) {
-      holder = new TodoItemsHolderImpl();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        if (holder == null) {
+            holder = new TodoItemsHolderImpl();
+        }
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerTodoItemsList);
+        TodoItemsAdapter adapter = new TodoItemsAdapter(holder);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        recyclerView.setAdapter(adapter);
+
+        editTextTask = findViewById(R.id.editTextInsertTask);
+        fabCreateItem = findViewById(R.id.buttonCreateTodoItem);
+        fabCreateItem.setOnClickListener(v -> {
+            String description = editTextTask.getText().toString();
+            if (description.equals("")) { // if the edit-text is empty (no input), nothing happens
+                return;
+            }
+            holder.addNewInProgressItem(description);
+            editTextTask.setText("");
+            adapter.notifyDataSetChanged();
+        });
+
+
     }
-
-    // TODO: implement the specs as defined below
-    //    (find all UI components, hook them up, connect everything you need)
-  }
 }
 
 /*

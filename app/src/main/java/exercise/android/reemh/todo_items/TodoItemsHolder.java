@@ -16,10 +16,10 @@ public interface TodoItemsHolder {
   void addNewInProgressItem(String description);
 
   /** mark the @param item as DONE */
-  void markItemDone(TodoItem item);
+  void markItemDone(int itemIndex);
 
   /** mark the @param item as IN-PROGRESS */
-  void markItemInProgress(TodoItem item);
+  void markItemInProgress(int itemIndex);
 
   /** delete the @param item */
   void deleteItem(TodoItem item);
