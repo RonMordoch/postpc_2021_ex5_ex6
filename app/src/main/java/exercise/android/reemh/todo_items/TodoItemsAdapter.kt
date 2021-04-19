@@ -26,22 +26,18 @@ class TodoItemsAdapter(holder: TodoItemsHolder) : RecyclerView.Adapter<TodoItemV
     }
 
     override fun onBindViewHolder(holder: TodoItemViewHolder, position: Int) {
-        bool = true
         val item = _todoItemsHolder.currentItems[position]
         holder.text.text = item.text
         holder.checkBox.isChecked = item.isDone
         holder.checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (!bool){
             if (isChecked) {
                 _todoItemsHolder.markItemDone(position)
-            }
-            else {
+            } else {
                 _todoItemsHolder.markItemInProgress(position)
             }
-                notifyDataSetChanged()
-            }
+            notifyDataSetChanged()
+
         }
-        bool = false;
     }
 
 }

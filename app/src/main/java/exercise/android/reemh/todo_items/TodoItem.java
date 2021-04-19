@@ -29,7 +29,7 @@ public class TodoItem implements Serializable, Comparable<TodoItem>
         boolean otherIsDone = other.getIsDone();
         if (otherIsDone)
         {
-            return 1;
+            return -1;
         }
         return 0;
     }
