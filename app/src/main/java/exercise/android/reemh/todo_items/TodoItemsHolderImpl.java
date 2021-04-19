@@ -1,6 +1,8 @@
 package exercise.android.reemh.todo_items;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 // TODO: implement!
@@ -33,6 +35,7 @@ public class TodoItemsHolderImpl implements TodoItemsHolder
         }
         // item state is IN-PROGRESS
         item.setIsDone(true);
+        sortItems();
 //        items.remove(item); // remove from the IN_PROGRESS part of list
 //        items.add(item); // append to the end of list, the DONE part
     }
@@ -49,6 +52,7 @@ public class TodoItemsHolderImpl implements TodoItemsHolder
         }
         // item state is DONE
         item.setIsDone(false);
+        sortItems();
 //        items.remove(item); // remove from the DONE part of list
 //        items.add(0, item); // append to the end of list, the DONE part
     }
@@ -62,5 +66,10 @@ public class TodoItemsHolderImpl implements TodoItemsHolder
                 return;
             }
         }
+    }
+
+    private void sortItems()
+    {
+        Collections.sort(items);
     }
 }

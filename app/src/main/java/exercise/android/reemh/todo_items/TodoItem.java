@@ -2,7 +2,7 @@ package exercise.android.reemh.todo_items;
 
 import java.io.Serializable;
 
-public class TodoItem implements Serializable
+public class TodoItem implements Serializable, Comparable<TodoItem>
 {
     private final String text;
     private boolean isDone;
@@ -22,5 +22,15 @@ public class TodoItem implements Serializable
 
     public String getText() {
         return text;
+    }
+
+    public int compareTo(TodoItem other)
+    {
+        boolean otherIsDone = other.getIsDone();
+        if (otherIsDone)
+        {
+            return 1;
+        }
+        return 0;
     }
 }
