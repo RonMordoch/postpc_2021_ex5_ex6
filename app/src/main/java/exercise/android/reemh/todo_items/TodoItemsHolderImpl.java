@@ -1,16 +1,17 @@
 package exercise.android.reemh.todo_items;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-// TODO: implement!
 public class TodoItemsHolderImpl implements TodoItemsHolder
 {
 
-    // In-progress items are displayed in the beggining, Done items in the end
-    private List<TodoItem> items = new ArrayList<>();
+    // In-progress items are displayed in the beginning, Done items in the end
+    private final List<TodoItem> items = new ArrayList<>();
+
 
     @Override
     public List<TodoItem> getCurrentItems() {

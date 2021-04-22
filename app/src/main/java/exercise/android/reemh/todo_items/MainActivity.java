@@ -1,5 +1,6 @@
 package exercise.android.reemh.todo_items;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,8 +10,13 @@ import android.widget.EditText;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.Serializable;
+
 public class MainActivity extends AppCompatActivity
 {
+
+    private static final String HOLDER_BUNDLE_KEY = "todo_items_holder",
+            USER_BUNDLE_KEY = "user_input";
 
     public TodoItemsHolder holder = null;
     private FloatingActionButton fabCreateItem;
@@ -20,7 +26,9 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        if (savedInstanceState != null) {
+            holder = (TodoItemsHolder) savedInstanceState.getSerializable(HOLDER_BUNDLE_KEY);
+        }
         if (holder == null) {
             holder = new TodoItemsHolderImpl();
         }
@@ -41,8 +49,20 @@ public class MainActivity extends AppCompatActivity
             editTextTask.setText("");
             adapter.notifyDataSetChanged();
         });
+    }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putSerializable(HOLDER_BUNDLE_KEY, holder);
+        outState.putString(USER_BUNDLE_KEY, editTextTask.getText().toString());
+        super.onSaveInstanceState(outState);
+    }
 
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        holder = (TodoItemsHolder) savedInstanceState.getSerializable(HOLDER_BUNDLE_KEY);
+        editTextTask.setText(savedInstanceState.getString(USER_BUNDLE_KEY));
     }
 }
 
@@ -84,4 +104,17 @@ Remarks:
 - save the TodoItems list to file, so the list will still be in the same state even when app is killed and re-launched
 )
 
+
+
+
+        if (holder == null) {
+//            if (savedInstanceState == null || savedInstanceState.getSerializable(HOLDER_BUNDLE_KEY) == null) {
+            holder = new TodoItemsHolderImpl();
+//            }
+//            else {
+//                holder = (TodoItemsHolder) savedInstanceState.getSerializable(HOLDER_BUNDLE_KEY);
+//            }
+        }
+
 */
+
