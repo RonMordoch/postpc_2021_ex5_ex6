@@ -36,8 +36,7 @@ public class TodoItemsHolderImpl implements TodoItemsHolder
         // item state is IN-PROGRESS
         item.setIsDone(true);
         sortItems();
-//        items.remove(item); // remove from the IN_PROGRESS part of list
-//        items.add(item); // append to the end of list, the DONE part
+
     }
 
     @Override
@@ -53,8 +52,6 @@ public class TodoItemsHolderImpl implements TodoItemsHolder
         // item state is DONE
         item.setIsDone(false);
         sortItems();
-//        items.remove(item); // remove from the DONE part of list
-//        items.add(0, item); // append to the end of list, the DONE part
     }
 
     @Override

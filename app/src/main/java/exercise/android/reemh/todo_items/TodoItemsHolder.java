@@ -3,7 +3,6 @@ package exercise.android.reemh.todo_items;
 import java.util.List;
 
 
-// TODO: feel free to add/change/remove methods as you want
 public interface TodoItemsHolder {
 
   /** Get a copy of the current items list */

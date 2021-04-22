@@ -7,17 +7,22 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class TodoItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val text: TextView = view.findViewById(R.id.itemText)
-    val checkBox: CheckBox = view.findViewById(R.id.itemCheckBox)
-}
 
-class TodoItemsAdapter(holder: TodoItemsHolder) : RecyclerView.Adapter<TodoItemViewHolder>() {
+class TodoItemsAdapter(holder: TodoItemsHolder) : RecyclerView.Adapter<TodoItemsAdapter.TodoItemViewHolder>() {
 
-    private var _todoItemsHolder = holder
-    private var bool = false
+    class TodoItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val text: TextView = view.findViewById(R.id.itemText)
+        val checkBox: CheckBox = view.findViewById(R.id.itemCheckBox)
+    }
+
+    private val _todoItemsHolder = holder
 
     override fun getItemCount(): Int = _todoItemsHolder.currentItems.size
+
+    override fun onViewRecycled(holder: TodoItemViewHolder) {
+        super.onViewRecycled(holder)
+        holder.checkBox.setOnCheckedChangeListener(null)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoItemViewHolder {
         val context = parent.context
@@ -30,14 +35,12 @@ class TodoItemsAdapter(holder: TodoItemsHolder) : RecyclerView.Adapter<TodoItemV
         holder.text.text = item.text
         holder.checkBox.isChecked = item.isDone
         holder.checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                _todoItemsHolder.markItemDone(position)
-            } else {
-                _todoItemsHolder.markItemInProgress(position)
-            }
-            notifyDataSetChanged()
-
+                if (isChecked) {
+                    _todoItemsHolder.markItemDone(position)
+                } else {
+                    _todoItemsHolder.markItemInProgress(position)
+                }
+                notifyDataSetChanged()
         }
     }
-
 }
