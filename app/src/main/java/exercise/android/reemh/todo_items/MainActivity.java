@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null) { // on create is called again on screen rotation
             holder = (TodoItemsHolder) savedInstanceState.getSerializable(HOLDER_BUNDLE_KEY);
         }
         if (holder == null) {
@@ -67,11 +67,9 @@ public class MainActivity extends AppCompatActivity
 }
 
 /*
-
 SPECS:
-
 - the screen starts out empty (no items shown, edit-text input should be empty)
-- every time the user taps the "add TODO item" button:
+- every time the user taps the "add todoitem" button:
     * if the edit-text is empty (no input), nothing happens
     * if there is input:
         - a new TodoItem (checkbox not checked) will be created and added to the items list
@@ -99,22 +97,9 @@ Remarks:
 - you should add tests to make sure your activity works as expected. take a look at file `MainActivityTest.java`
 
 
-
 (optional, for advanced students:
 - save the TodoItems list to file, so the list will still be in the same state even when app is killed and re-launched
 )
-
-
-
-
-        if (holder == null) {
-//            if (savedInstanceState == null || savedInstanceState.getSerializable(HOLDER_BUNDLE_KEY) == null) {
-            holder = new TodoItemsHolderImpl();
-//            }
-//            else {
-//                holder = (TodoItemsHolder) savedInstanceState.getSerializable(HOLDER_BUNDLE_KEY);
-//            }
-        }
 
 */
 

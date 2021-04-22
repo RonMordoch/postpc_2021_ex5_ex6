@@ -10,10 +10,16 @@ public class TodoItem implements Serializable, Comparable<TodoItem>
     private boolean isDone;
     private Date creationTime;
 
-    TodoItem(String itemText) {
-        text = itemText;
+    TodoItem()
+    {
+        text = "";
         isDone = false;
         creationTime = new Date();
+    }
+
+    TodoItem(String itemText) {
+        super();
+        text = itemText;
     }
 
     public boolean getIsDone() {
