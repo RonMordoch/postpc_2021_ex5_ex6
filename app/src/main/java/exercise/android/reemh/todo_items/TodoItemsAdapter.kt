@@ -1,8 +1,10 @@
 package exercise.android.reemh.todo_items
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -11,8 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 class TodoItemsAdapter(holder: TodoItemsHolder) : RecyclerView.Adapter<TodoItemsAdapter.TodoItemViewHolder>() {
 
     class TodoItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val text: TextView = view.findViewById(R.id.itemText)
+        val textView: TextView = view.findViewById(R.id.itemText)
         val checkBox: CheckBox = view.findViewById(R.id.itemCheckBox)
+        val deleteButton : Button = view.findViewById(R.id.deleteItemButton)
     }
 
     private val _todoItemsHolder = holder
@@ -32,15 +35,22 @@ class TodoItemsAdapter(holder: TodoItemsHolder) : RecyclerView.Adapter<TodoItems
 
     override fun onBindViewHolder(holder: TodoItemViewHolder, position: Int) {
         val item = _todoItemsHolder.currentItems[position]
-        holder.text.text = item.text
+        holder.textView.text = item.text
         holder.checkBox.isChecked = item.isDone
+        holder.textView.paintFlags = if (item.isDone) Paint.STRIKE_THRU_TEXT_FLAG else 0
         holder.checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
-                if (isChecked) {
-                    _todoItemsHolder.markItemDone(position)
-                } else {
-                    _todoItemsHolder.markItemInProgress(position)
-                }
-                notifyDataSetChanged()
+            if (isChecked) {
+                _todoItemsHolder.markItemDone(position)
+            } else {
+                _todoItemsHolder.markItemInProgress(position)
+            }
+            notifyDataSetChanged()
+        }
+
+        holder.deleteButton.setOnClickListener{
+            _todoItemsHolder.deleteItem(item)
+            notifyDataSetChanged()
         }
     }
+
 }

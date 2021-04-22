@@ -31,7 +31,7 @@ public class TodoItemsHolderImpl implements TodoItemsHolder
         TodoItem item = items.get(itemIndex);
         if (item.getIsDone())
         {
-            return;
+            return; // avoid unnecessary sorting
         }
         // item state is IN-PROGRESS
         item.setIsDone(true);
@@ -47,7 +47,7 @@ public class TodoItemsHolderImpl implements TodoItemsHolder
         TodoItem item = items.get(itemIndex);
         if (!item.getIsDone())
         {
-            return;
+            return; // avoid unnecessary sorting
         }
         // item state is DONE
         item.setIsDone(false);
