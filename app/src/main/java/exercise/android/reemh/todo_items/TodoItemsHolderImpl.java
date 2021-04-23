@@ -30,14 +30,7 @@ public class TodoItemsHolderImpl implements TodoItemsHolder
             throw  new IndexOutOfBoundsException();
         }
         TodoItem item = items.get(itemIndex);
-        if (item.getIsDone())
-        {
-            return; // avoid unnecessary sorting
-        }
-        // item state is IN-PROGRESS
-        item.setIsDone(true);
-        sortItems();
-
+        setItemState(item, true);
     }
 
     @Override
@@ -46,12 +39,16 @@ public class TodoItemsHolderImpl implements TodoItemsHolder
             throw  new IndexOutOfBoundsException();
         }
         TodoItem item = items.get(itemIndex);
-        if (!item.getIsDone())
+        setItemState(item, false);
+    }
+
+    private void setItemState(TodoItem item, boolean newState)
+    {
+        if (item.getIsDone() == newState)
         {
-            return; // avoid unnecessary sorting
+            return;
         }
-        // item state is DONE
-        item.setIsDone(false);
+        item.setIsDone(newState);
         sortItems();
     }
 

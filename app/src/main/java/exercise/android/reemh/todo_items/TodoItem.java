@@ -39,7 +39,7 @@ public class TodoItem implements Serializable, Comparable<TodoItem>
         }
         if (otherIsDone)
         {
-            return -1;
+            return -1; // DONE items are showed last
         }
         return 0;
     }

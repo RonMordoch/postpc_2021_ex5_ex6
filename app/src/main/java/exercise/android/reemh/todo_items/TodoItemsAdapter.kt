@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 class TodoItemsAdapter(holder: TodoItemsHolder) : RecyclerView.Adapter<TodoItemsAdapter.TodoItemViewHolder>() {
 
     class TodoItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView = view.findViewById(R.id.itemText)
+        val textView: TextView = view.findViewById(R.id.itemTextView)
         val checkBox: CheckBox = view.findViewById(R.id.itemCheckBox)
-        val deleteButton : Button = view.findViewById(R.id.deleteItemButton)
+        val deleteButton : Button = view.findViewById(R.id.itemDeleteButton)
     }
 
     private val _todoItemsHolder = holder
