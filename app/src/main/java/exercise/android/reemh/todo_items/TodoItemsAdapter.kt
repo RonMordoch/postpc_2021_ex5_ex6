@@ -36,8 +36,10 @@ class TodoItemsAdapter(holder: TodoItemsHolder) : RecyclerView.Adapter<TodoItems
     override fun onBindViewHolder(holder: TodoItemViewHolder, position: Int) {
         val item = _todoItemsHolder.currentItems[position]
         holder.textView.text = item.text
+        // set checkbox according to item state and set strike-through effects accordingly
         holder.checkBox.isChecked = item.isDone
         holder.textView.paintFlags = if (item.isDone) Paint.STRIKE_THRU_TEXT_FLAG else 0
+
         holder.checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 _todoItemsHolder.markItemDone(position)
