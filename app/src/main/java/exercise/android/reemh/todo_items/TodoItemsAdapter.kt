@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 class TodoItemsAdapter(holder: TodoItemsHolder) : RecyclerView.Adapter<TodoItemsAdapter.TodoItemViewHolder>() {
 
     class TodoItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView = view.findViewById(R.id.itemTextView)
-        val checkBox: CheckBox = view.findViewById(R.id.itemCheckBox)
-        val deleteButton : Button = view.findViewById(R.id.itemDeleteButton)
+        val textViewItem: TextView = view.findViewById(R.id.textViewItem)
+        val checkBoxItem: CheckBox = view.findViewById(R.id.checkBoxItem)
+        val buttonDeleteItem : Button = view.findViewById(R.id.buttonDeleteItem)
     }
 
     private val _todoItemsHolder = holder
@@ -24,7 +24,7 @@ class TodoItemsAdapter(holder: TodoItemsHolder) : RecyclerView.Adapter<TodoItems
 
     override fun onViewRecycled(holder: TodoItemViewHolder) {
         super.onViewRecycled(holder)
-        holder.checkBox.setOnCheckedChangeListener(null)
+        holder.checkBoxItem.setOnCheckedChangeListener(null)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoItemViewHolder {
@@ -35,12 +35,12 @@ class TodoItemsAdapter(holder: TodoItemsHolder) : RecyclerView.Adapter<TodoItems
 
     override fun onBindViewHolder(holder: TodoItemViewHolder, position: Int) {
         val item = _todoItemsHolder.currentItems[position]
-        holder.textView.text = item.text
+        holder.textViewItem.text = item.text
         // set checkbox according to item state and set strike-through effects accordingly
-        holder.checkBox.isChecked = item.isDone
-        holder.textView.paintFlags = if (item.isDone) Paint.STRIKE_THRU_TEXT_FLAG else 0
+        holder.checkBoxItem.isChecked = item.isDone
+        holder.textViewItem.paintFlags = if (item.isDone) Paint.STRIKE_THRU_TEXT_FLAG else 0
 
-        holder.checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
+        holder.checkBoxItem.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 _todoItemsHolder.markItemDone(position)
             } else {
@@ -48,8 +48,8 @@ class TodoItemsAdapter(holder: TodoItemsHolder) : RecyclerView.Adapter<TodoItems
             }
             notifyDataSetChanged()
         }
-
-        holder.deleteButton.setOnClickListener{
+        // set on click listener to delete the current binded item
+        holder.buttonDeleteItem.setOnClickListener{
             _todoItemsHolder.deleteItem(item)
             notifyDataSetChanged()
         }

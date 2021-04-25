@@ -6,7 +6,7 @@
     android:minHeight="40dp">
 
     <CheckBox
-        android:id="@+id/itemCheckBox"
+        android:id="@+id/checkBoxItem"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginStart="8dp"
@@ -15,19 +15,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/itemTextView"
+        android:id="@+id/textViewItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/itemCheckBox"
+        app:layout_constraintStart_toEndOf="@id/checkBoxItem"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/itemDeleteButton"
+        android:id="@+id/buttonDeleteItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="DELETE"
+        android:text="@string/delete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />

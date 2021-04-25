@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">TodoItems</string>
     <string name="add_task">Add task...</string>
+    <string name="delete">DELETE</string>
 </resources>

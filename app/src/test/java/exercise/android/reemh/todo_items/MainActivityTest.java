@@ -130,8 +130,8 @@ public class MainActivityTest extends TestCase
 
         // 2. verify that the shown view has a checkbox being not-checked and has a TextView showing the correct description
         View viewInRecycler = recyclerView.findViewHolderForAdapterPosition(0).itemView;
-        CheckBox checkBoxInRecycler = viewInRecycler.findViewById(R.id.itemCheckBox);
-        TextView textViewInRecycler = viewInRecycler.findViewById(R.id.itemTextView);
+        CheckBox checkBoxInRecycler = viewInRecycler.findViewById(R.id.checkBoxItem);
+        TextView textViewInRecycler = viewInRecycler.findViewById(R.id.textViewItem);
         assertFalse(checkBoxInRecycler.isChecked());
         assertEquals(todoText, textViewInRecycler.getText().toString());
     }
@@ -164,8 +164,8 @@ public class MainActivityTest extends TestCase
 
         // 2. verify that the shown view has a checkbox being checked and has a TextView showing the correct description
         View viewInRecycler = recyclerView.findViewHolderForAdapterPosition(0).itemView;
-        CheckBox checkBoxInRecycler = viewInRecycler.findViewById(R.id.itemCheckBox);
-        TextView textViewInRecycler = viewInRecycler.findViewById(R.id.itemTextView);
+        CheckBox checkBoxInRecycler = viewInRecycler.findViewById(R.id.checkBoxItem);
+        TextView textViewInRecycler = viewInRecycler.findViewById(R.id.textViewItem);
         assertTrue(checkBoxInRecycler.isChecked());
         assertEquals(todoText, textViewInRecycler.getText().toString());
     }
