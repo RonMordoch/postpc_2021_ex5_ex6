@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity
     private static final String HOLDER_BUNDLE_KEY = "todo_items_holder",
             USER_BUNDLE_KEY = "user_input";
 
-    public TodoItemsHolder holder = null;
+    public TodoItemsHolder holder;// = null;
     private FloatingActionButton fabCreateItem;
     private EditText editTextTask;
 
@@ -26,12 +26,14 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState != null) { // on create is called again on screen rotation
-            holder = (TodoItemsHolder) savedInstanceState.getSerializable(HOLDER_BUNDLE_KEY);
-        }
-        if (holder == null) {
-            holder = new TodoItemsHolderImpl();
-        }
+//        if (savedInstanceState != null) { // on create is called again on screen rotation
+//            holder = (TodoItemsHolder) savedInstanceState.getSerializable(HOLDER_BUNDLE_KEY);
+//        }
+//        if (holder == null) {
+//            holder = ((MyApp)getApplicationContext()).holder;
+//        }
+        MyApp app = (MyApp) getApplicationContext();
+        holder = app.holder;
 
         RecyclerView recyclerView = findViewById(R.id.recyclerTodoItemsList);
         TodoItemsAdapter adapter = new TodoItemsAdapter(holder);

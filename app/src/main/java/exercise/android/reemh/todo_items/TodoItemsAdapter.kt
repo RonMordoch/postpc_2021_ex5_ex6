@@ -1,5 +1,6 @@
 package exercise.android.reemh.todo_items
 
+import android.content.Intent
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 
 
@@ -53,6 +55,12 @@ class TodoItemsAdapter(holder: TodoItemsHolder) : RecyclerView.Adapter<TodoItems
             _todoItemsHolder.deleteItem(item)
             notifyDataSetChanged()
         }
+
+// TODO use for later part of the exercise
+//        holder.textViewItem.setOnClickListener{
+//            val editTodoItemIntent = Intent(it.context, EditTodoItemActivity::class.java)
+//            it.context.startActivity(editTodoItemIntent)
+//        }
     }
 
 }
