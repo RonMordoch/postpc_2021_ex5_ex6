@@ -1,8 +1,8 @@
 package exercise.android.reemh.todo_items;
 
-import java.io.Serializable;
+import android.content.SharedPreferences;
+
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -10,8 +10,39 @@ public class TodoItemsHolderImpl implements TodoItemsHolder
 {
 
     // In-progress items are displayed in the beginning, Done items in the end
-    private final List<TodoItem> items = new ArrayList<>();
-
+    private List<TodoItem> items = new ArrayList<>();
+//    private final SharedPreferences sp;
+//
+//    public TodoItemsHolderImpl(SharedPreferences sharedPreferences)
+//    {
+//        sp = sharedPreferences;
+//        loadDataFromSharedPreferences();
+//    }
+//
+//    private void loadDataFromSharedPreferences()
+//    {
+//        int size = sp.getInt("num_items", 0);
+//        List<TodoItem> loadedItems = new ArrayList<>();
+//        for (int i =0; i < size; i++)
+//        {
+//            String itemName = "item" + Integer.toString(i);
+//            TodoItem item = new TodoItem(sp.getString(itemName + "_text", ""));
+//            items.add(item);
+//        }
+//        items = loadedItems;
+//    }
+//
+//    private void saveDataToSharedPreferences()
+//    {
+//        SharedPreferences.Editor editor = sp.edit();
+//        editor.putInt("num_items", items.size());
+//        for (int i = 0; i < items.size(); i++)
+//        {
+//            String itemName = "item" + i;
+//            editor.putString(itemName + "_text", items.get(i).getText());
+//        }
+//        editor.apply();
+//    }
 
     @Override
     public List<TodoItem> getCurrentItems() {
@@ -22,6 +53,7 @@ public class TodoItemsHolderImpl implements TodoItemsHolder
     public void addNewInProgressItem(String description) {
         TodoItem item = new TodoItem(description);
         items.add(0, item);  // the last-created item is the first item in the list
+//        saveDataToSharedPreferences();
     }
 
     @Override
@@ -50,6 +82,7 @@ public class TodoItemsHolderImpl implements TodoItemsHolder
         }
         item.setIsDone(newState);
         sortItems();
+//        saveDataToSharedPreferences();
     }
 
     @Override
@@ -58,9 +91,11 @@ public class TodoItemsHolderImpl implements TodoItemsHolder
         {
             if (todoItem == item){
                 items.remove(item);
+//                saveDataToSharedPreferences();
                 return;
             }
         }
+
     }
 
     private void sortItems()

@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.widget.EditText;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity
 //            holder = ((MyApp)getApplicationContext()).holder;
 //        }
         MyApp app = (MyApp) getApplicationContext();
-        holder = app.holder;
+        holder = app.dataStore.holder;
 
         RecyclerView recyclerView = findViewById(R.id.recyclerTodoItemsList);
         TodoItemsAdapter adapter = new TodoItemsAdapter(holder);
