@@ -5,14 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.widget.EditText;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.io.Serializable;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -20,7 +16,7 @@ public class MainActivity extends AppCompatActivity
     private static final String HOLDER_BUNDLE_KEY = "todo_items_holder",
             USER_BUNDLE_KEY = "user_input";
 
-    public TodoItemsHolder holder;// = null;
+    public TodoListDataStore holderDataStore;// = null;
     private FloatingActionButton fabCreateItem;
     private EditText editTextTask;
 
@@ -35,10 +31,10 @@ public class MainActivity extends AppCompatActivity
 //            holder = ((MyApp)getApplicationContext()).holder;
 //        }
         MyApp app = (MyApp) getApplicationContext();
-        holder = app.dataStore.holder;
+        holderDataStore = app.dataStore;
 
         RecyclerView recyclerView = findViewById(R.id.recyclerTodoItemsList);
-        TodoItemsAdapter adapter = new TodoItemsAdapter(holder);
+        TodoItemsAdapter adapter = new TodoItemsAdapter(holderDataStore);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 
@@ -49,7 +45,7 @@ public class MainActivity extends AppCompatActivity
             if (description.equals("")) { // if the edit-text is empty (no input), nothing happens
                 return;
             }
-            holder.addNewInProgressItem(description);
+            holderDataStore.addNewInProgressItem(description);
             editTextTask.setText("");
             adapter.notifyDataSetChanged();
         });
@@ -57,7 +53,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putSerializable(HOLDER_BUNDLE_KEY, holder);
+        outState.putSerializable(HOLDER_BUNDLE_KEY, holderDataStore.holder);
         outState.putString(USER_BUNDLE_KEY, editTextTask.getText().toString());
         super.onSaveInstanceState(outState);
     }
@@ -65,7 +61,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        holder = (TodoItemsHolder) savedInstanceState.getSerializable(HOLDER_BUNDLE_KEY);
+        holderDataStore.holder = (TodoItemsHolderImpl) savedInstanceState.getSerializable(HOLDER_BUNDLE_KEY);
         editTextTask.setText(savedInstanceState.getString(USER_BUNDLE_KEY));
     }
 }

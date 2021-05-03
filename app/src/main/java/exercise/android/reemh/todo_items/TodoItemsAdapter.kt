@@ -1,6 +1,5 @@
 package exercise.android.reemh.todo_items
 
-import android.content.Intent
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +7,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 
 
-class TodoItemsAdapter(holder: TodoItemsHolder) : RecyclerView.Adapter<TodoItemsAdapter.TodoItemViewHolder>() {
+class TodoItemsAdapter(dataStore: TodoListDataStore) : RecyclerView.Adapter<TodoItemsAdapter.TodoItemViewHolder>() {
 
     class TodoItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textViewItem: TextView = view.findViewById(R.id.textViewItem)
@@ -20,9 +18,9 @@ class TodoItemsAdapter(holder: TodoItemsHolder) : RecyclerView.Adapter<TodoItems
         val buttonDeleteItem : Button = view.findViewById(R.id.buttonDeleteItem)
     }
 
-    private val _todoItemsHolder = holder
+    private val _todoItemsDataStore = dataStore
 
-    override fun getItemCount(): Int = _todoItemsHolder.currentItems.size
+    override fun getItemCount(): Int = _todoItemsDataStore.holder.currentItems.size
 
     override fun onViewRecycled(holder: TodoItemViewHolder) {
         super.onViewRecycled(holder)
@@ -36,7 +34,7 @@ class TodoItemsAdapter(holder: TodoItemsHolder) : RecyclerView.Adapter<TodoItems
     }
 
     override fun onBindViewHolder(holder: TodoItemViewHolder, position: Int) {
-        val item = _todoItemsHolder.currentItems[position]
+        val item = _todoItemsDataStore.holder.currentItems[position]
         holder.textViewItem.text = item.text
         // set checkbox according to item state and set strike-through effects accordingly
         holder.checkBoxItem.isChecked = item.isDone
@@ -44,15 +42,15 @@ class TodoItemsAdapter(holder: TodoItemsHolder) : RecyclerView.Adapter<TodoItems
 
         holder.checkBoxItem.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                _todoItemsHolder.markItemDone(position)
+                _todoItemsDataStore.markItemDone(position)
             } else {
-                _todoItemsHolder.markItemInProgress(position)
+                _todoItemsDataStore.markItemInProgress(position)
             }
             notifyDataSetChanged()
         }
         // set on click listener to delete the current binded item
         holder.buttonDeleteItem.setOnClickListener{
-            _todoItemsHolder.deleteItem(item)
+            _todoItemsDataStore.deleteItem(position)
             notifyDataSetChanged()
         }
 
