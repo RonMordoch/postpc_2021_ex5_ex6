@@ -6,14 +6,11 @@ import android.preference.PreferenceManager;
 
 public class MyApp extends Application
 {
-
-//    public TodoItemsHolder holder;
     public TodoListDataStore dataStore;
 
     @Override
     public void onCreate() {
         super.onCreate();
-//        holder = new TodoItemsHolderImpl();
         dataStore = new TodoListDataStore(this);
     }
 }

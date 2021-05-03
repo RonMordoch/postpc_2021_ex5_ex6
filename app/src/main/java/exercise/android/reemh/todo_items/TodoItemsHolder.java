@@ -16,14 +16,11 @@ public interface TodoItemsHolder extends Serializable {
   void addNewInProgressItem(String description);
 
   /** mark the @param item as DONE */
-  void markItemDone(int itemIndex);
+  void markItemDone(TodoItem item);
 
   /** mark the @param item as IN-PROGRESS */
-  void markItemInProgress(int itemIndex);
+  void markItemInProgress(TodoItem item);
 
   /** delete the @param item */
   void deleteItem(TodoItem item);
-
-  /** delete the item in @param itemIndex*/
-  public void deleteItem(int itemIndex);
 }

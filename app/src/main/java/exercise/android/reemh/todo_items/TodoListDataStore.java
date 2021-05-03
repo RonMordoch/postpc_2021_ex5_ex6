@@ -4,9 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import java.io.Serializable;
-import java.util.List;
 
+/** A wrapper class that extends funcionallity of TodoItemsHolderImpl in order to persist data */
 public class TodoListDataStore
 {
     public static final String HOLDER_SIZE_KEY = "holder_size",
@@ -14,7 +13,7 @@ public class TodoListDataStore
             ITEM_IS_DONE_KEY = "itemIsDone#",
             ITEM_CREATION_DATE_KEY = "itemCreationDate#";
     public TodoItemsHolderImpl holder;
-    private SharedPreferences sp;
+    private final SharedPreferences sp;
 
 
     public TodoListDataStore(Context context) {
@@ -28,23 +27,18 @@ public class TodoListDataStore
         saveDataToSP();
     }
 
-    public void markItemDone(int itemIndex) {
-        holder.markItemDone(itemIndex);
+    public void markItemDone(TodoItem item) {
+        holder.markItemDone(item);
         saveDataToSP();
     }
 
-    public void markItemInProgress(int itemIndex) {
-        holder.markItemInProgress(itemIndex);
+    public void markItemInProgress(TodoItem item) {
+        holder.markItemInProgress(item);
         saveDataToSP();
     }
 
     public void deleteItem(TodoItem item) {
         holder.deleteItem(item);
-        saveDataToSP();
-    }
-
-    public void deleteItem(int itemIndex) {
-        holder.deleteItem(itemIndex);
         saveDataToSP();
     }
 
@@ -74,7 +68,7 @@ public class TodoListDataStore
             boolean currentItemIsDone = sp.getBoolean(ITEM_IS_DONE_KEY + i, false);
             if (currentItemIsDone)
             {
-                newHolder.markItemDone(0); // item will always be in index 0 after adding
+                newHolder.markItemDone(newHolder.getCurrentItems().get(0)); // item will always be in index 0 after adding
             }
         }
         holder = newHolder;

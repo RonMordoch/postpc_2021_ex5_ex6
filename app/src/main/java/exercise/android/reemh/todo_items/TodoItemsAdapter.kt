@@ -42,15 +42,15 @@ class TodoItemsAdapter(dataStore: TodoListDataStore) : RecyclerView.Adapter<Todo
 
         holder.checkBoxItem.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                _todoItemsDataStore.markItemDone(position)
+                _todoItemsDataStore.markItemDone(item)
             } else {
-                _todoItemsDataStore.markItemInProgress(position)
+                _todoItemsDataStore.markItemInProgress(item)
             }
             notifyDataSetChanged()
         }
         // set on click listener to delete the current binded item
         holder.buttonDeleteItem.setOnClickListener{
-            _todoItemsDataStore.deleteItem(position)
+            _todoItemsDataStore.deleteItem(item)
             notifyDataSetChanged()
         }
 

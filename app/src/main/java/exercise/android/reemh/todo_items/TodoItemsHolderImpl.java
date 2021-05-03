@@ -25,27 +25,17 @@ public class TodoItemsHolderImpl implements TodoItemsHolder
     }
 
     @Override
-    public void markItemDone(int itemIndex) {
-        if (itemIndex >= items.size()){
-            throw  new IndexOutOfBoundsException();
-        }
-        TodoItem item = items.get(itemIndex);
+    public void markItemDone(TodoItem item) {
         setItemState(item, true);
     }
 
     @Override
-    public void markItemInProgress(int itemIndex) {
-        if (itemIndex >= items.size()){
-            throw  new IndexOutOfBoundsException();
-        }
-        TodoItem item = items.get(itemIndex);
+    public void markItemInProgress(TodoItem item) {
         setItemState(item, false);
     }
 
-    private void setItemState(TodoItem item, boolean newState)
-    {
-        if (item.getIsDone() == newState)
-        {
+    private void setItemState(TodoItem item, boolean newState) {
+        if (item.getIsDone() == newState) {
             return;
         }
         item.setIsDone(newState);
@@ -54,26 +44,15 @@ public class TodoItemsHolderImpl implements TodoItemsHolder
 
     @Override
     public void deleteItem(TodoItem item) {
-        for (TodoItem todoItem: items)
-        {
-            if (todoItem == item){
+        for (TodoItem todoItem : items) {
+            if (todoItem == item) {
                 items.remove(item);
                 return;
             }
         }
     }
 
-    @Override
-    public void deleteItem(int itemIndex)
-    {
-        if (itemIndex >= items.size()){
-            throw  new IndexOutOfBoundsException();
-        }
-        items.remove(itemIndex);
-    }
-
-    private void sortItems()
-    {
+    private void sortItems() {
         Collections.sort(items);
     }
 }
