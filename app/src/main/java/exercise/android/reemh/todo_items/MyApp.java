@@ -1,8 +1,6 @@
 package exercise.android.reemh.todo_items;
 
 import android.app.Application;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 public class MyApp extends Application
 {
