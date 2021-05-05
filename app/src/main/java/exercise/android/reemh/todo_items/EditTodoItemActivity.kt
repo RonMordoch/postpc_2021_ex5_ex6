@@ -7,6 +7,7 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import java.lang.Math.abs
 import java.time.LocalDateTime
 import java.time.ZoneId
 
@@ -76,12 +77,18 @@ class EditTodoItemActivity : AppCompatActivity() {
         }
         // else, item was last modified today in the current year
         // item was modified more than an hour ago
+        // note that if the currentHour is less than lastModifiedHour because a day has passed,
+        // e.g. currentHour is 1:10 (AM) and lastModifiedHour is 23:10, then we will catch it in the
+        // previous condition
         else if ((currentHour > lastModifiedHour) && (currentMinute >= lastModifiedMinute)) {
             textViewLastModifiedText = "Today at $lastModifiedHour"
         }
         // item was modified less then an hour ago
         else {
-            textViewLastModifiedText = "${currentMinute - lastModifiedMinute} minutes ago"
+            // abs because we can have to cases when less than an hour passed:
+                // 1. Same hour but currentMinute is larger , e.g. 15:30 -> 15:40
+                //2. Different hour but currentMinute is smaller, e.g. 15:30 -> 16:10
+            textViewLastModifiedText = "${kotlin.math.abs(lastModifiedMinute - currentMinute)} minutes ago"
         }
         textViewLastModifiedTime.text = textViewLastModifiedText;
 
