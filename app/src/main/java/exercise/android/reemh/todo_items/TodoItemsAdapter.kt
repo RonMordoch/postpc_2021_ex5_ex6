@@ -38,7 +38,7 @@ class TodoItemsAdapter(dataStore: TodoListDataStore) : RecyclerView.Adapter<Todo
     }
 
     override fun onBindViewHolder(holder: TodoItemViewHolder, position: Int) {
-        var item = _todoItemsDataStore.holder.currentItems[position]
+        val item = _todoItemsDataStore.holder.currentItems[position]
         holder.textViewItem.text = item.description
         // set checkbox according to item state and set strike-through effects accordingly
         holder.checkBoxItem.isChecked = item.isDone

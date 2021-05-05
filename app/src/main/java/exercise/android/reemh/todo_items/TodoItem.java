@@ -62,11 +62,15 @@ public class TodoItem implements Serializable, Comparable<TodoItem>
 
     public int compareTo(TodoItem other) {
         boolean otherIsDone = other.getIsDone();
-        if (isDone == otherIsDone) {
-            return other.getCreationTime().compareTo(creationTime); // last-created item is the first item in the list
+        if (!isDone && !otherIsDone) { // both items are in progress, sort by creation time where the last-created item is the first item in the list
+            return other.getCreationTime().compareTo(creationTime);
         }
-        if (otherIsDone) {
-            return -1; // DONE items are showed last
+        else if (isDone && otherIsDone) // both items are done, sort by last modified where the most recently modified is the first item in the list
+        {
+            return other.getLastModifiedTime().compareTo(lastModifiedTime);
+        }
+        else if (!isDone && otherIsDone) { // other item is done, show last
+            return -1;
         }
         return 0;
     }

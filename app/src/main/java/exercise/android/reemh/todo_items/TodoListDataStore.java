@@ -93,6 +93,7 @@ public class TodoListDataStore
             currentItem.setLastModifiedTime(lastModifiedTime);
         }
         holder = newHolder;
+        holder.sortItems(); // seems like SP does not save the same order of items, sort on loading
     }
 
 }

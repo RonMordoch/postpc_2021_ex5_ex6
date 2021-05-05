@@ -8,7 +8,6 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import java.lang.Math.abs
 import java.time.LocalDateTime
 import java.time.ZoneId
 
@@ -16,14 +15,17 @@ class EditTodoItemActivity : AppCompatActivity() {
 
     lateinit var item: TodoItem
     lateinit var textViewLastModifiedTime: TextView
+    lateinit var editTextItemText: EditText
+    lateinit var checkBoxItemEdit: CheckBox
+    lateinit var textViewCreationTime: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_todo_item)
 
-        val editTextItemText: EditText = findViewById(R.id.editTextItemText)
-        val checkBoxItemEdit: CheckBox = findViewById(R.id.checkBoxItemEdit)
-        val textViewCreationTime: TextView = findViewById(R.id.textViewCreationTime)
+        editTextItemText = findViewById(R.id.editTextItemText)
+        checkBoxItemEdit = findViewById(R.id.checkBoxItemEdit)
+        textViewCreationTime = findViewById(R.id.textViewCreationTime)
         textViewLastModifiedTime = findViewById(R.id.textViewLastModifiedTime)
 
         // set initial views
@@ -32,11 +34,8 @@ class EditTodoItemActivity : AppCompatActivity() {
         // set the edit text and check box accordingly
         editTextItemText.setText(item.description)
         checkBoxItemEdit.isChecked = item.isDone
-        // set the creation date text view
-        val itemCreationDateStr = "Created on: ${item.creationTime.dayOfMonth}-${item.creationTime.monthValue}-${item.creationTime.year}"
-        textViewCreationTime.text = itemCreationDateStr
-        textViewCreationTime.isClickable = false
-        // set the last modified text view
+        // set the creation date and last-modified text views
+        setTextViewCreationTime()
         setTextViewLastModifiedTime()
 
         // set on click listeners for editText
@@ -50,21 +49,24 @@ class EditTodoItemActivity : AppCompatActivity() {
                 item.updateLastModified(); // update last modified after changing text
             }
         })
-
         // set on click listener for check box
         checkBoxItemEdit.setOnCheckedChangeListener { buttonView, isChecked ->
             item.isDone = isChecked
         }
-
         // return result to launching activity (main activity)
         returnResultToLaunchingActivity()
     }
 
-    private fun returnResultToLaunchingActivity()
-    {
-        val intentBack : Intent = Intent()
+    private fun returnResultToLaunchingActivity() {
+        val intentBack: Intent = Intent()
         intentBack.putExtra("MODIFIED_ITEM", item)
         setResult(RESULT_OK, intentBack)
+    }
+
+    /** Initialize the creationTime text view according to the item's creation date */
+    private fun setTextViewCreationTime() {
+        val itemCreationDateStr = "Created on: ${item.creationTime.dayOfMonth}-${item.creationTime.monthValue}-${item.creationTime.year}"
+        textViewCreationTime.text = itemCreationDateStr
     }
 
     /**
@@ -97,13 +99,13 @@ class EditTodoItemActivity : AppCompatActivity() {
         // e.g. currentHour is 1:10 (AM) and lastModifiedHour is 23:10, then we will catch it in the
         // previous condition
         else if ((currentHour > lastModifiedHour) && (currentMinute >= lastModifiedMinute)) {
-            textViewLastModifiedText = "Today at $lastModifiedHour"
+            textViewLastModifiedText = "Today at $lastModifiedHour:$lastModifiedMinute"
         }
         // item was modified less then an hour ago
         else {
             // abs because we can have to cases when less than an hour passed:
-                // 1. Same hour but currentMinute is larger , e.g. 15:30 -> 15:40
-                //2. Different hour but currentMinute is smaller, e.g. 15:30 -> 16:10
+            // 1. Same hour but currentMinute is larger , e.g. 15:30 -> 15:40
+            //2. Different hour but currentMinute is smaller, e.g. 15:30 -> 16:10
             textViewLastModifiedText = "${kotlin.math.abs(lastModifiedMinute - currentMinute)} minutes ago"
         }
         textViewLastModifiedTime.text = textViewLastModifiedText;

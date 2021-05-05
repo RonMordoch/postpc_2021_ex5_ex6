@@ -67,7 +67,7 @@ public class TodoItemsHolderImpl implements TodoItemsHolder
         sortItems();
     }
 
-    private void sortItems() {
+    public void sortItems() {
         Collections.sort(items);
     }
 }
