@@ -1,10 +1,12 @@
 package exercise.android.reemh.todo_items;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 
@@ -19,6 +21,8 @@ public class MainActivity extends AppCompatActivity
     public TodoListDataStore holderDataStore;// = null;
     private FloatingActionButton fabCreateItem;
     private EditText editTextTask;
+    private RecyclerView recyclerView;
+    private TodoItemsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +37,8 @@ public class MainActivity extends AppCompatActivity
         MyApp app = (MyApp) getApplicationContext();
         holderDataStore = app.dataStore;
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerTodoItemsList);
-        TodoItemsAdapter adapter = new TodoItemsAdapter(holderDataStore);
+        recyclerView = findViewById(R.id.recyclerTodoItemsList);
+        adapter = new TodoItemsAdapter(holderDataStore);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 
@@ -63,6 +67,20 @@ public class MainActivity extends AppCompatActivity
         super.onRestoreInstanceState(savedInstanceState);
         holderDataStore.holder = (TodoItemsHolderImpl) savedInstanceState.getSerializable(HOLDER_BUNDLE_KEY);
         editTextTask.setText(savedInstanceState.getString(USER_BUNDLE_KEY));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 123)
+        {
+            if (resultCode == RESULT_OK)
+            {
+                TodoItem modifiedItem = (TodoItem) data.getSerializableExtra("MODIFIED_ITEM");
+                holderDataStore.updateItem(modifiedItem);
+                adapter.notifyDataSetChanged();
+            }
+        }
     }
 }
 

@@ -47,6 +47,12 @@ public class TodoListDataStore
         saveDataToSP();
     }
 
+    public void updateItem(TodoItem item)
+    {
+        holder.updateItem(item);
+        saveDataToSP();
+    }
+
     /** Saves the entire holder data to the SP object **/
     private void saveDataToSP() {
         SharedPreferences.Editor editor = sp.edit();

@@ -50,6 +50,23 @@ public class TodoItemsHolderImpl implements TodoItemsHolder
         }
     }
 
+    public void updateItem(TodoItem item)
+    {
+        for (TodoItem todoItem : items)
+        {
+            // creation time serves as a unique key for each items ( nano second precision)
+            if (todoItem.getCreationTime().equals(item.getCreationTime()))
+            {
+                // remove the old version of item and add the new one
+                items.remove(todoItem);
+                items.add(item);
+                break;
+            }
+        }
+        // sort items, in case the new modified item progress status was changed
+        sortItems();
+    }
+
     private void sortItems() {
         Collections.sort(items);
     }

@@ -1,5 +1,6 @@
 package exercise.android.reemh.todo_items
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Paint
 import android.view.LayoutInflater
@@ -61,10 +62,9 @@ class TodoItemsAdapter(dataStore: TodoListDataStore) : RecyclerView.Adapter<Todo
         holder.textViewItem.setOnClickListener {
             val editTodoItemIntent = Intent(it.context, EditTodoItemActivity::class.java)
             editTodoItemIntent.putExtra(EXTRA_ROW_TODO_ITEM, item)
-            it.context.startActivity(editTodoItemIntent)
-            // TODO sos
-//            editTodoItemIntent.putExtra("ROW_TODO_ITEM", item)
-//            (it.context as Activity).startActivityForResult(editTodoItemIntent, 123)
+//            it.context.startActivity(editTodoItemIntent)
+            // TODO
+            (it.context as Activity).startActivityForResult(editTodoItemIntent, 123)
         }
     }
 

@@ -1,5 +1,6 @@
 package exercise.android.reemh.todo_items
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -38,7 +39,7 @@ class EditTodoItemActivity : AppCompatActivity() {
         // set the last modified text view
         setTextViewLastModifiedTime()
 
-        // set on click listeners or editText and checkBox
+        // set on click listeners for editText
         editTextItemText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
@@ -49,6 +50,21 @@ class EditTodoItemActivity : AppCompatActivity() {
                 item.updateLastModified(); // update last modified after changing text
             }
         })
+
+        // set on click listener for check box
+        checkBoxItemEdit.setOnCheckedChangeListener { buttonView, isChecked ->
+            item.isDone = isChecked
+        }
+
+        // return result to launching activity (main activity)
+        returnResultToLaunchingActivity()
+    }
+
+    private fun returnResultToLaunchingActivity()
+    {
+        val intentBack : Intent = Intent()
+        intentBack.putExtra("MODIFIED_ITEM", item)
+        setResult(RESULT_OK, intentBack)
     }
 
     /**
