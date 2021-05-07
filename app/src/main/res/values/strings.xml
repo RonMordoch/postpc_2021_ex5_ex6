@@ -2,4 +2,7 @@
     <string name="app_name">TodoItems</string>
     <string name="add_task">Add task...</string>
     <string name="delete">DELETE</string>
+    <string name="modified_less_than_hour">%1$d minutes ago</string>
+    <string name="modified_today_more_than_hour">Today at %1$s</string>
+    <string name="modified_yesterday_or_earlier">%1$s at %2$s</string>
 </resources>

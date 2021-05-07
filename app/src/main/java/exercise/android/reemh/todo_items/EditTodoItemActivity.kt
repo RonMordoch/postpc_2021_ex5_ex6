@@ -79,15 +79,19 @@ class EditTodoItemActivity : AppCompatActivity() {
     private fun setTextViewLastModifiedTime() {
         val currentDateTime: LocalDateTime = LocalDateTime.now(ZoneId.systemDefault())
         val duration: Duration = Duration.between(item.lastModifiedTime, currentDateTime)
+        // for the two last cases
+        val minutes = if (item.lastModifiedTime.minute < 10) "0${item.lastModifiedTime.minute}" else "${item.lastModifiedTime.minute}"
+        val hour = "${item.lastModifiedTime.hour}:$minutes"
         when {
             duration.toMinutes() < 60 -> {
-                textViewLastModifiedTime.text = "${duration.toMinutes()} minutes ago"
+                textViewLastModifiedTime.text = getString(R.string.modified_less_than_hour, duration.toMinutes())
             }
             duration.toHours() < 24 -> {
-                textViewLastModifiedTime.text = "Today at ${item.lastModifiedTime.hour}"
+                textViewLastModifiedTime.text = getString(R.string.modified_today_more_than_hour, hour)
+
             }
             else -> {
-                textViewLastModifiedTime.text = "${item.lastModifiedTime.toLocalDate()} at ${item.lastModifiedTime.hour}"
+                textViewLastModifiedTime.text = getString(R.string.modified_yesterday_or_earlier, item.lastModifiedTime.toLocalDate().toString(), hour)
             }
         }
     }
