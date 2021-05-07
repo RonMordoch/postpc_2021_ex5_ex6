@@ -66,8 +66,9 @@ class EditTodoItemActivity : AppCompatActivity() {
 
     /** Initialize the creationTime text view according to the item's creation date */
     private fun setTextViewCreationTime() {
-        val itemCreationDateStr = "Created on: ${item.creationTime.dayOfMonth}-${item.creationTime.monthValue}-${item.creationTime.year}"
-        textViewCreationTime.text = itemCreationDateStr
+//        val itemCreationDateStr = "Created on: ${item.creationTime.dayOfMonth}-${item.creationTime.monthValue}-${item.creationTime.year}"
+//        textViewCreationTime.text = itemCreationDateStr
+        textViewCreationTime.text = getString(R.string.creation_date,item.creationTime.dayOfMonth, item.creationTime.monthValue, item.creationTime.year)
     }
 
     /**

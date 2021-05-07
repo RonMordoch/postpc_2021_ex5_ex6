@@ -2,7 +2,8 @@
     <string name="app_name">TodoItems</string>
     <string name="add_task">Add task...</string>
     <string name="delete">DELETE</string>
-    <string name="modified_less_than_hour">%1$d minutes ago</string>
-    <string name="modified_today_more_than_hour">Today at %1$s</string>
-    <string name="modified_yesterday_or_earlier">%1$s at %2$s</string>
+    <string name="modified_less_than_hour">Last modified %1$d minutes ago</string>
+    <string name="modified_today_more_than_hour">Last modified today at %1$s</string>
+    <string name="modified_yesterday_or_earlier">Last modified %1$s at %2$s</string>
+    <string name="creation_date">Created on %1$d-%2$d-%3$d</string>
 </resources>
