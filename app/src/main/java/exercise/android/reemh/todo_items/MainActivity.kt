@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity(), TodoItemRowClickListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 123) {
+        if (requestCode == EDIT_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 val modifiedItem = data!!.getSerializableExtra(EXTRA_MODIFIED_ITEM) as TodoItem
                 holderDataStore.updateItem(modifiedItem)
@@ -74,12 +74,13 @@ class MainActivity : AppCompatActivity(), TodoItemRowClickListener {
     override fun onTodoItemRowClicked(item: TodoItem) {
         val editTodoItemIntent = Intent(this@MainActivity, EditTodoItemActivity::class.java)
         editTodoItemIntent.putExtra(EXTRA_ROW_TODO_ITEM, item)
-        startActivityForResult(editTodoItemIntent, 123)
+        startActivityForResult(editTodoItemIntent, EDIT_ACTIVITY_REQUEST_CODE)
     }
 
     companion object {
         private const val HOLDER_BUNDLE_KEY = "todo_items_holder"
         private const val USER_BUNDLE_KEY = "user_input"
         private const val EXTRA_ROW_TODO_ITEM = "ROW_TODO_ITEM"
+        private const val EDIT_ACTIVITY_REQUEST_CODE = 123
     }
 }

@@ -24,7 +24,7 @@ class TodoItemsAdapter(dataStore: TodoListDataStore) : RecyclerView.Adapter<Todo
 
     private val _todoItemsDataStore = dataStore
     // define a click callback function that receives a TodoItem
-    public var onTodoItemRowClickCallback : ((TodoItem) -> Unit)? = null
+    var onTodoItemRowClickCallback : ((TodoItem) -> Unit)? = null
 
     override fun getItemCount(): Int = _todoItemsDataStore.holder.currentItems.size
 
@@ -64,11 +64,6 @@ class TodoItemsAdapter(dataStore: TodoListDataStore) : RecyclerView.Adapter<Todo
 
         // set on click listener for the text view that launches the edit-item activity
         holder.textViewItem.setOnClickListener {
-            // todo move to main activity
-//            val editTodoItemIntent = Intent(it.context, EditTodoItemActivity::class.java)
-//            editTodoItemIntent.putExtra(EXTRA_ROW_TODO_ITEM, item)
-//            (it.context as Activity).startActivityForResult(editTodoItemIntent, 123)
-            // if the callback item is null, return; else call the callback function
             val callback = onTodoItemRowClickCallback ?: return@setOnClickListener
             callback(item)
         }
