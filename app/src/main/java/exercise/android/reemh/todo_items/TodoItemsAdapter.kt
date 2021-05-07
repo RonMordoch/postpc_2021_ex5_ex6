@@ -1,7 +1,5 @@
 package exercise.android.reemh.todo_items
 
-import android.app.Activity
-import android.content.Intent
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View

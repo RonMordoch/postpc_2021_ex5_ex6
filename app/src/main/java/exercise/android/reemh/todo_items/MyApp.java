@@ -12,6 +12,4 @@ public class MyApp extends Application
         dataStore = new TodoListDataStore(this);
     }
 
-
-
 }

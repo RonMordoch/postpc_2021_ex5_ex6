@@ -10,26 +10,23 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity(), TodoItemRowClickListener {
 
-    lateinit var holderDataStore: TodoListDataStore
     private lateinit var fabCreateItem: FloatingActionButton
     private lateinit var editTextTask: EditText
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: TodoItemsAdapter
+    private lateinit var appContext : MyApp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // initialize data source
-        val app: MyApp = applicationContext as MyApp
-        holderDataStore = app.dataStore
-        // find initial views
+        appContext = applicationContext as MyApp
         recyclerView = findViewById(R.id.recyclerTodoItemsList)
         editTextTask = findViewById(R.id.editTextInsertTask)
         fabCreateItem = findViewById(R.id.buttonCreateTodoItem)
 
         // set recycler view and adapter
-        adapter = TodoItemsAdapter(holderDataStore)
+        adapter = TodoItemsAdapter(appContext.dataStore)
         recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         recyclerView.adapter = adapter
         adapter.onTodoItemRowClickCallback = { item: TodoItem ->
@@ -39,24 +36,23 @@ class MainActivity : AppCompatActivity(), TodoItemRowClickListener {
         // set on click listener for create item button
         fabCreateItem.setOnClickListener {
             val description = editTextTask.text.toString()
-            if (description == "") { // if the edit-text is empty (no input), nothing happens
-                return@setOnClickListener
+            if (description != "") { // if the edit-text is empty (no input), nothing happens
+                appContext.dataStore.addNewInProgressItem(description)
+                editTextTask.setText("")
+                adapter.notifyDataSetChanged()
             }
-            holderDataStore.addNewInProgressItem(description)
-            editTextTask.setText("")
-            adapter.notifyDataSetChanged()
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putSerializable(HOLDER_BUNDLE_KEY, holderDataStore.holder)
+//        outState.putSerializable(HOLDER_BUNDLE_KEY, appContext.dataStore)
         outState.putString(USER_BUNDLE_KEY, editTextTask.text.toString())
         super.onSaveInstanceState(outState)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        holderDataStore.holder = savedInstanceState.getSerializable(HOLDER_BUNDLE_KEY) as TodoItemsHolderImpl
+//        holderDataStore.holder = savedInstanceState.getSerializable(HOLDER_BUNDLE_KEY) as TodoItemsHolderImpl
         editTextTask.setText(savedInstanceState.getString(USER_BUNDLE_KEY))
     }
 
@@ -65,7 +61,7 @@ class MainActivity : AppCompatActivity(), TodoItemRowClickListener {
         if (requestCode == EDIT_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 val modifiedItem = data!!.getSerializableExtra(EXTRA_MODIFIED_ITEM) as TodoItem
-                holderDataStore.updateItem(modifiedItem)
+                appContext.dataStore.updateItem(modifiedItem)
                 adapter.notifyDataSetChanged()
             }
         }
@@ -78,7 +74,7 @@ class MainActivity : AppCompatActivity(), TodoItemRowClickListener {
     }
 
     companion object {
-        private const val HOLDER_BUNDLE_KEY = "todo_items_holder"
+//        private const val HOLDER_BUNDLE_KEY = "todo_items_holder"
         private const val USER_BUNDLE_KEY = "user_input"
         private const val EXTRA_ROW_TODO_ITEM = "ROW_TODO_ITEM"
         private const val EDIT_ACTIVITY_REQUEST_CODE = 123
