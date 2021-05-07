@@ -8,7 +8,7 @@ public class TodoItemsHolderImpl implements TodoItemsHolder
 {
 
     // In-progress items are displayed in the beginning, Done items in the end
-    private List<TodoItem> items = new ArrayList<>();
+    private final List<TodoItem> items = new ArrayList<>();
 
 
     @Override

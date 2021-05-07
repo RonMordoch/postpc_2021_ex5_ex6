@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import java.time.LocalDateTime
 import java.time.ZoneId
 
+const val EXTRA_MODIFIED_ITEM : String = "MODIFIED_ITEM"
+
 class EditTodoItemActivity : AppCompatActivity() {
 
     lateinit var item: TodoItem
@@ -28,7 +30,6 @@ class EditTodoItemActivity : AppCompatActivity() {
         textViewCreationTime = findViewById(R.id.textViewCreationTime)
         textViewLastModifiedTime = findViewById(R.id.textViewLastModifiedTime)
 
-        // set initial views
         // get the item we are currently editing
         item = intent.getSerializableExtra(EXTRA_ROW_TODO_ITEM) as TodoItem
         // set the edit text and check box accordingly
@@ -47,19 +48,20 @@ class EditTodoItemActivity : AppCompatActivity() {
                 val newDescription: String = editTextItemText.text.toString()
                 item.description = newDescription
                 item.updateLastModified(); // update last modified after changing text
+                returnResultToLaunchingActivity()
+
             }
         })
         // set on click listener for check box
         checkBoxItemEdit.setOnCheckedChangeListener { buttonView, isChecked ->
             item.isDone = isChecked
+            returnResultToLaunchingActivity()
         }
-        // return result to launching activity (main activity)
-        returnResultToLaunchingActivity()
     }
 
     private fun returnResultToLaunchingActivity() {
-        val intentBack: Intent = Intent()
-        intentBack.putExtra("MODIFIED_ITEM", item)
+        val intentBack = Intent()
+        intentBack.putExtra(EXTRA_MODIFIED_ITEM, item)
         setResult(RESULT_OK, intentBack)
     }
 
@@ -109,7 +111,6 @@ class EditTodoItemActivity : AppCompatActivity() {
             textViewLastModifiedText = "${kotlin.math.abs(lastModifiedMinute - currentMinute)} minutes ago"
         }
         textViewLastModifiedTime.text = textViewLastModifiedText;
-
     }
 
 

@@ -23,6 +23,8 @@ class TodoItemsAdapter(dataStore: TodoListDataStore) : RecyclerView.Adapter<Todo
     }
 
     private val _todoItemsDataStore = dataStore
+    // define a click callback function that receives a TodoItem
+    public var onTodoItemRowClickCallback : ((TodoItem) -> Unit)? = null
 
     override fun getItemCount(): Int = _todoItemsDataStore.holder.currentItems.size
 
@@ -39,11 +41,12 @@ class TodoItemsAdapter(dataStore: TodoListDataStore) : RecyclerView.Adapter<Todo
 
     override fun onBindViewHolder(holder: TodoItemViewHolder, position: Int) {
         val item = _todoItemsDataStore.holder.currentItems[position]
-        holder.textViewItem.text = item.description
         // set checkbox according to item state and set strike-through effects accordingly
         holder.checkBoxItem.isChecked = item.isDone
+        holder.textViewItem.text = item.description
         holder.textViewItem.paintFlags = if (item.isDone) Paint.STRIKE_THRU_TEXT_FLAG else 0
 
+        // set on click listener for the check-box
         holder.checkBoxItem.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 _todoItemsDataStore.markItemDone(item)
@@ -52,6 +55,7 @@ class TodoItemsAdapter(dataStore: TodoListDataStore) : RecyclerView.Adapter<Todo
             }
             notifyDataSetChanged()
         }
+
         // set on click listener to delete the current binded item
         holder.buttonDeleteItem.setOnClickListener {
             _todoItemsDataStore.deleteItem(item)
@@ -60,11 +64,13 @@ class TodoItemsAdapter(dataStore: TodoListDataStore) : RecyclerView.Adapter<Todo
 
         // set on click listener for the text view that launches the edit-item activity
         holder.textViewItem.setOnClickListener {
-            val editTodoItemIntent = Intent(it.context, EditTodoItemActivity::class.java)
-            editTodoItemIntent.putExtra(EXTRA_ROW_TODO_ITEM, item)
-//            it.context.startActivity(editTodoItemIntent)
-            // TODO
-            (it.context as Activity).startActivityForResult(editTodoItemIntent, 123)
+            // todo move to main activity
+//            val editTodoItemIntent = Intent(it.context, EditTodoItemActivity::class.java)
+//            editTodoItemIntent.putExtra(EXTRA_ROW_TODO_ITEM, item)
+//            (it.context as Activity).startActivityForResult(editTodoItemIntent, 123)
+            // if the callback item is null, return; else call the callback function
+            val callback = onTodoItemRowClickCallback ?: return@setOnClickListener
+            callback(item)
         }
     }
 
