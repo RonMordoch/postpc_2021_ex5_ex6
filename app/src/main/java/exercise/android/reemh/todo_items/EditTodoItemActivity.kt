@@ -87,7 +87,7 @@ class EditTodoItemActivity : AppCompatActivity() {
             duration.toMinutes() < 60 -> {
                 textViewLastModifiedTime.text = getString(R.string.modified_less_than_hour, duration.toMinutes())
             }
-            duration.toHours() < 24 -> {
+            ((duration.toHours() < 24) && (item.lastModifiedTime.dayOfMonth == currentDateTime.dayOfMonth)) -> {
                 textViewLastModifiedTime.text = getString(R.string.modified_today_more_than_hour, hour)
 
             }
