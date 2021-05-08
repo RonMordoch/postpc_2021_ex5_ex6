@@ -23,4 +23,12 @@ public interface TodoItemsHolder extends Serializable {
 
   /** delete the @param item */
   void deleteItem(TodoItem item);
+
+  /** Updates the current item to the given one */
+  void updateItem(TodoItem item);
+
+  /** Sort the items in the holder */
+  void sortItems();
+
+
 }

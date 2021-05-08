@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class TodoItemsHolderImplTest
 {
@@ -71,30 +72,6 @@ public class TodoItemsHolderImplTest
     }
 
     @Test
-    public void when_markingItemWithWrongIndex_then_throwException()
-    {
-        TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
-        holderUnderTest.addNewInProgressItem("in1");
-        try
-        {
-            holderUnderTest.markItemInProgress(5);
-        }
-        catch (IndexOutOfBoundsException e)
-        {
-            // good :)
-        }
-        try
-        {
-            holderUnderTest.markItemDone(2);
-        }
-        catch (IndexOutOfBoundsException e)
-        {
-            // good :)
-        }
-    }
-
-
-    @Test
     public void when_settingItemProgress_then_ProgressShouldBeCorrect()
     {
         TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
@@ -104,12 +81,12 @@ public class TodoItemsHolderImplTest
         TodoItem inProgressItem = holderUnderTest.getCurrentItems().get(2),
                 doneItem = holderUnderTest.getCurrentItems().get(1),
                 otherItem = holderUnderTest.getCurrentItems().get(0);
-        holderUnderTest.markItemDone(1);
+        holderUnderTest.markItemDone(doneItem);
         Assert.assertFalse(inProgressItem.getIsDone());
         Assert.assertFalse(otherItem.getIsDone());
         Assert.assertTrue(doneItem.getIsDone());
         // set back doneItem to in progress
-        holderUnderTest.markItemInProgress(2);
+        holderUnderTest.markItemInProgress(doneItem);
         Assert.assertFalse(inProgressItem.getIsDone());
         Assert.assertFalse(otherItem.getIsDone());
         Assert.assertFalse(doneItem.getIsDone());
@@ -122,7 +99,8 @@ public class TodoItemsHolderImplTest
         holderUnderTest.addNewInProgressItem("first");
         holderUnderTest.addNewInProgressItem("second");
         holderUnderTest.addNewInProgressItem("third"); // third, second, first
-        holderUnderTest.markItemDone(1); // third, first, second
+        TodoItem second = holderUnderTest.getCurrentItems().get(1);
+        holderUnderTest.markItemDone(second); // third, first, second
         Assert.assertEquals("third", holderUnderTest.getCurrentItems().get(0).getDescription());
         Assert.assertEquals("first", holderUnderTest.getCurrentItems().get(1).getDescription());
         Assert.assertEquals("second", holderUnderTest.getCurrentItems().get(2).getDescription());
@@ -133,16 +111,34 @@ public class TodoItemsHolderImplTest
     {
         TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
         holderUnderTest.addNewInProgressItem("first after delete, third before");
+        TodoItem firstAfterDelete = holderUnderTest.getCurrentItems().get(0);
         holderUnderTest.addNewInProgressItem("second after delete, second before");
+        TodoItem secondAfterDelete = holderUnderTest.getCurrentItems().get(0);
         holderUnderTest.addNewInProgressItem("third after delete, first before");
+        TodoItem thirdAfterDelete = holderUnderTest.getCurrentItems().get(0);
         Assert.assertEquals("third after delete, first before", holderUnderTest.getCurrentItems().get(0).getDescription());
         Assert.assertEquals("second after delete, second before", holderUnderTest.getCurrentItems().get(1).getDescription());
         Assert.assertEquals("first after delete, third before", holderUnderTest.getCurrentItems().get(2).getDescription());
-        holderUnderTest.markItemDone(0);
-        holderUnderTest.markItemDone(0);
-        holderUnderTest.markItemDone(0); // mark all in progress items as done which will be in beginning
+        holderUnderTest.markItemDone(thirdAfterDelete);
+        holderUnderTest.markItemDone(secondAfterDelete);
+        holderUnderTest.markItemDone(firstAfterDelete); // mark all in progress items as done which will be in beginning
         Assert.assertEquals("first after delete, third before", holderUnderTest.getCurrentItems().get(0).getDescription());
         Assert.assertEquals("second after delete, second before", holderUnderTest.getCurrentItems().get(1).getDescription());
         Assert.assertEquals("third after delete, first before", holderUnderTest.getCurrentItems().get(2).getDescription());
+    }
+
+    @Test
+    public void when_allItemsInProgress_then_orderShouldBeByCreationDate() throws InterruptedException {
+        TodoItemsHolderImpl holderUnderTest = new TodoItemsHolderImpl();
+        holderUnderTest.addNewInProgressItem("created first");
+        TodoItem createdFirst = holderUnderTest.getCurrentItems().get(0);
+        TimeUnit.SECONDS.sleep(1);
+        holderUnderTest.addNewInProgressItem("created second");
+        TodoItem createdSecond = holderUnderTest.getCurrentItems().get(0);
+        TimeUnit.SECONDS.sleep(1);
+        holderUnderTest.addNewInProgressItem("created last");
+        TodoItem createdLast = holderUnderTest.getCurrentItems().get(0);
+        Assert.assertTrue(createdFirst.getCreationTime().isBefore(createdSecond.getCreationTime()));
+        Assert.assertTrue(createdSecond.getCreationTime().isBefore(createdLast.getCreationTime()));
     }
 }

@@ -24,7 +24,7 @@ class TodoItemsAdapter(dataStore: TodoListDataStore) : RecyclerView.Adapter<Todo
     // define a click callback function that receives a TodoItem
     var onTodoItemRowClickCallback : ((TodoItem) -> Unit)? = null
 
-    override fun getItemCount(): Int = _todoItemsDataStore.holder.currentItems.size
+    override fun getItemCount(): Int = _todoItemsDataStore.currentItemsSize
 
     override fun onViewRecycled(holder: TodoItemViewHolder) {
         super.onViewRecycled(holder)
@@ -38,7 +38,7 @@ class TodoItemsAdapter(dataStore: TodoListDataStore) : RecyclerView.Adapter<Todo
     }
 
     override fun onBindViewHolder(holder: TodoItemViewHolder, position: Int) {
-        val item = _todoItemsDataStore.holder.currentItems[position]
+        val item = _todoItemsDataStore.currentItems[position]
         // set checkbox according to item state and set strike-through effects accordingly
         holder.checkBoxItem.isChecked = item.isDone
         holder.textViewItem.text = item.description

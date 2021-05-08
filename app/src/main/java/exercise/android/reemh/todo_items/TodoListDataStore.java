@@ -3,17 +3,9 @@ package exercise.android.reemh.todo_items;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-
-import java.lang.reflect.Type;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A wrapper class that extends functionality of TodoItemsHolderImpl in order to persist data
@@ -21,20 +13,14 @@ import java.time.LocalDateTime;
 public class TodoListDataStore
 {
     // key constant names for the SharedPreferences object
-    public static final String SP_HOLDER_KEY = "HOLDER_JSON";
+//    public static final String SP_HOLDER_KEY = "HOLDER_JSON";
     public static final String HOLDER_SIZE_KEY = "holder_size",
             ITEM_DESCRIPTION_KEY = "itemDescription#",
             ITEM_IS_DONE_KEY = "itemIsDone#",
             ITEM_CREATION_TIME_KEY = "itemCreationTime#",
             ITEM_LAST_MODIFIED_TIME_KEY = "itemLastModifiedTime#";
-    public TodoItemsHolderImpl holder;
+    public TodoItemsHolder holder;
     private final SharedPreferences sp;
-    private static final Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new JsonDeserializer<LocalDate>() {
-        @Override
-        public LocalDate deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-            return LocalDate.parse(json.getAsJsonPrimitive().getAsString());
-        }
-    }).create();
 
     public TodoListDataStore(Context context) {
         sp = PreferenceManager.getDefaultSharedPreferences(context);
@@ -44,6 +30,10 @@ public class TodoListDataStore
     }
 
     /** Wrapper methods for TodoItemsHolderImpl **/
+
+    public List<TodoItem> getCurrentItems(){return  holder.getCurrentItems();}
+
+    public int getCurrentItemsSize(){return holder.getCurrentItems().size();}
 
     public void addNewInProgressItem(String description) {
         holder.addNewInProgressItem(description);
@@ -73,11 +63,6 @@ public class TodoListDataStore
 
     /** Saves the entire holder data to the SP object **/
     private void saveDataToSP() {
-//        SharedPreferences.Editor editor = sp.edit();
-//        editor.clear();
-//        String holderJson = gson.toJson(holder);
-//        editor.putString(SP_HOLDER_KEY, holderJson);
-//        editor.apply();
         SharedPreferences.Editor editor = sp.edit();
         editor.clear();
         editor.putInt(HOLDER_SIZE_KEY, holder.getCurrentItems().size());
@@ -97,19 +82,6 @@ public class TodoListDataStore
 
     /** Loads the entire holder data from the SP object **/
     private void loadDataFromSP() {
-//        String holderJson = sp.getString(SP_HOLDER_KEY, "");
-//        if (!holderJson.equals("")) {
-//            holder = gson.fromJson(holderJson, TodoItemsHolderImpl.class);
-//        }
-//        if (holderJson.equals(""))
-//        {
-//            return; // error reading an empty string from shared preferences
-//        }
-//        Gson gson = new Gson();
-//        Type token = new TypeToken<ArrayList<TodoItem>>() {}.getType();
-//        holder = gson.fromJson(holderJson, token);
-//        // newHolder.sortItems(); // todo see if gson keeps the order
-
         int size = sp.getInt(HOLDER_SIZE_KEY, 0);
         TodoItemsHolderImpl newHolder = new TodoItemsHolderImpl();
         for (int i = 0; i < size; i++) {

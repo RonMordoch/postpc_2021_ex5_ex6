@@ -29,7 +29,6 @@ public class MainActivityTest extends TestCase
 
     private ActivityController<MainActivity> activityController;
     private TodoItemsHolder mockHolder;
-
     @Before
     public void setup() {
         mockHolder = Mockito.mock(TodoItemsHolder.class);
@@ -41,7 +40,7 @@ public class MainActivityTest extends TestCase
 
         // let the activity use our `mockHolder` as the TodoItemsHolder
         MainActivity activityUnderTest = activityController.get();
-        activityUnderTest.holderDataStore = mockHolder;
+        ((MyApp) activityUnderTest.getApplication()).dataStore.holder = mockHolder;
     }
 
     @Test

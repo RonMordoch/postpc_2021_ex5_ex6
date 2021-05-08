@@ -13,6 +13,8 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 
 const val EXTRA_MODIFIED_ITEM: String = "MODIFIED_ITEM"
+const val MINUTES_IN_HOUR : Int = 60
+const val HOURS_IN_DAY : Int = 24
 
 class EditTodoItemActivity : AppCompatActivity() {
 
@@ -66,8 +68,6 @@ class EditTodoItemActivity : AppCompatActivity() {
 
     /** Initialize the creationTime text view according to the item's creation date */
     private fun setTextViewCreationTime() {
-//        val itemCreationDateStr = "Created on: ${item.creationTime.dayOfMonth}-${item.creationTime.monthValue}-${item.creationTime.year}"
-//        textViewCreationTime.text = itemCreationDateStr
         textViewCreationTime.text = getString(R.string.creation_date,item.creationTime.dayOfMonth, item.creationTime.monthValue, item.creationTime.year)
     }
 
@@ -84,12 +84,11 @@ class EditTodoItemActivity : AppCompatActivity() {
         val minutes = if (item.lastModifiedTime.minute < 10) "0${item.lastModifiedTime.minute}" else "${item.lastModifiedTime.minute}"
         val hour = "${item.lastModifiedTime.hour}:$minutes"
         when {
-            duration.toMinutes() < 60 -> {
+            duration.toMinutes() < MINUTES_IN_HOUR -> {
                 textViewLastModifiedTime.text = getString(R.string.modified_less_than_hour, duration.toMinutes())
             }
-            ((duration.toHours() < 24) && (item.lastModifiedTime.dayOfMonth == currentDateTime.dayOfMonth)) -> {
+            ((duration.toHours() < HOURS_IN_DAY) && (item.lastModifiedTime.dayOfMonth == currentDateTime.dayOfMonth)) -> {
                 textViewLastModifiedTime.text = getString(R.string.modified_today_more_than_hour, hour)
-
             }
             else -> {
                 textViewLastModifiedTime.text = getString(R.string.modified_yesterday_or_earlier, item.lastModifiedTime.toLocalDate().toString(), hour)

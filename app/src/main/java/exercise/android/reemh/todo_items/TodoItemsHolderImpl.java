@@ -32,13 +32,7 @@ public class TodoItemsHolderImpl implements TodoItemsHolder
         setItemState(item, false);
     }
 
-    private void setItemState(TodoItem item, boolean newState) {
-        if (item.getIsDone() == newState) {
-            return;
-        }
-        item.setIsDone(newState);
-        sortItems();
-    }
+
 
     @Override
     public void deleteItem(TodoItem item) {
@@ -69,5 +63,13 @@ public class TodoItemsHolderImpl implements TodoItemsHolder
 
     public void sortItems() {
         Collections.sort(items);
+    }
+
+    private void setItemState(TodoItem item, boolean newState) {
+        if (item.getIsDone() == newState) {
+            return;
+        }
+        item.setIsDone(newState);
+        sortItems();
     }
 }
