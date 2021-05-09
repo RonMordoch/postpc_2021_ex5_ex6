@@ -20,3 +20,9 @@ The button will be visible next to the other buttons in the row , and thus will 
 It will be somewhat easy to implement the solution, we will need to set onClickListener for this button and launch a new activity
 from the RecyclerView that will let the user edit the clicked item there, and send the information back from the launched activity into the previous one.
 This solution will be consistent with the regular "edit" flows in Android and in general (for example web pages), as the pencil icon is used quite commonly for such purpose.
+
+
+## Notes
+My implementation is to save the holder data structure piece by piece which is not as efficient as
+using GSON, however GSON raises issues when trying to deserialize the TodoItem's LocalDateTime objects. I have tried
+the solutions offered online to no avail, and decided not to store them as strings and repeatedly convert them back and forth.
