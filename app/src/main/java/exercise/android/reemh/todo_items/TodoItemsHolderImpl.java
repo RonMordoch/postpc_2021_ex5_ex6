@@ -13,7 +13,7 @@ public class TodoItemsHolderImpl implements TodoItemsHolder
 
     @Override
     public List<TodoItem> getCurrentItems() {
-        return items;
+        return new ArrayList<>(items); // return a shallow copy of all the items
     }
 
     @Override
