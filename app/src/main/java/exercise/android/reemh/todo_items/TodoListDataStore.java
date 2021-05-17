@@ -13,7 +13,6 @@ import java.util.List;
 public class TodoListDataStore
 {
     // key constant names for the SharedPreferences object
-//    public static final String SP_HOLDER_KEY = "HOLDER_JSON";
     public static final String HOLDER_SIZE_KEY = "holder_size",
             ITEM_DESCRIPTION_KEY = "itemDescription#",
             ITEM_IS_DONE_KEY = "itemIsDone#",

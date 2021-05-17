@@ -45,14 +45,12 @@ class MainActivity : AppCompatActivity(), TodoItemRowClickListener {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-//        outState.putSerializable(HOLDER_BUNDLE_KEY, appContext.dataStore)
         outState.putString(USER_BUNDLE_KEY, editTextTask.text.toString())
         super.onSaveInstanceState(outState)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-//        holderDataStore.holder = savedInstanceState.getSerializable(HOLDER_BUNDLE_KEY) as TodoItemsHolderImpl
         editTextTask.setText(savedInstanceState.getString(USER_BUNDLE_KEY))
     }
 
@@ -74,7 +72,6 @@ class MainActivity : AppCompatActivity(), TodoItemRowClickListener {
     }
 
     companion object {
-//        private const val HOLDER_BUNDLE_KEY = "todo_items_holder"
         private const val USER_BUNDLE_KEY = "user_input"
         private const val EXTRA_ROW_TODO_ITEM = "ROW_TODO_ITEM"
         private const val EDIT_ACTIVITY_REQUEST_CODE = 123
