@@ -13,8 +13,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 
 const val EXTRA_MODIFIED_ITEM: String = "MODIFIED_ITEM"
-const val MINUTES_IN_HOUR : Int = 60
-const val HOURS_IN_DAY : Int = 24
+
 
 class EditTodoItemActivity : AppCompatActivity() {
 
@@ -100,6 +99,35 @@ class EditTodoItemActivity : AppCompatActivity() {
         val intentBack = Intent()
         intentBack.putExtra(EXTRA_MODIFIED_ITEM, item)
         setResult(RESULT_OK, intentBack)
+    }
+
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(KEY_BUNDLE_LAST_MODIFIED, textViewLastModifiedTime.text.toString())
+        outState.putString(KEY_BUNDLE_CREATION_TIME, textViewCreationTime.text.toString())
+        outState.putString(KEY_BUNDLE_EDIT_ITEM_TEXT, editTextItemText.text.toString())
+        outState.putBoolean(KEY_BUNDLE_ITEM_CHECKED, checkBoxItemEdit.isChecked)
+        outState.putSerializable(KEY_BUNDLE_ITEM, item)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        item = savedInstanceState.getSerializable(KEY_BUNDLE_ITEM) as TodoItem
+        textViewLastModifiedTime.text = savedInstanceState.getString(KEY_BUNDLE_LAST_MODIFIED)
+        textViewCreationTime.text = savedInstanceState.getString(KEY_BUNDLE_CREATION_TIME)
+        editTextItemText.setText(savedInstanceState.getString(KEY_BUNDLE_EDIT_ITEM_TEXT))
+        checkBoxItemEdit.isChecked = savedInstanceState.getBoolean(KEY_BUNDLE_ITEM_CHECKED)
+    }
+
+    companion object{
+        const val MINUTES_IN_HOUR : Int = 60
+        const val HOURS_IN_DAY : Int = 24
+        private const val KEY_BUNDLE_LAST_MODIFIED = "key_bundle_last_modified"
+        private const val KEY_BUNDLE_CREATION_TIME = "key_bundle_creation_time"
+        private const val KEY_BUNDLE_EDIT_ITEM_TEXT = "key_bundle_edit_item_text"
+        private const val KEY_BUNDLE_ITEM_CHECKED = "key_bundle_item_checked"
+        private const val KEY_BUNDLE_ITEM = "key_bundle_item"
     }
 
 }
